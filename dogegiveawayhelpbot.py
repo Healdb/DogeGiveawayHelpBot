@@ -31,7 +31,7 @@ def find_giveaway():
                                         #This is the comment the bot leaves on the giveaway, change it to suit your needs.
                                         submission.add_comment('+/u/dogetipbot 50 doge \n\n^^Please ^^consider ^^tipping ^^this ^^bot ^^to ^^keep ^^me ^^running ^^and ^^to ^^see ^^larger ^^tips! \n\n^^Owned ^^by ^^/u/cbg119. ^^Problems? ^^Shoot ^^me ^^a ^^message!')
                                         already_done.add(sub_id)
-                                        obj.write(sub_id + ' ') 
+                                        obj.write(sub_id + '  ') 
                                         obj.close()
                                         time.sleep(30)
                                         break
