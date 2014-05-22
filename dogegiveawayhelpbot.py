@@ -7,6 +7,8 @@ r = praw.Reddit('Dogecoin giveaway tipper')
 r.login("USERNAME","PASSWORD")
 already_done = set()
 words = ['Giveaway', 'giveaway']
+dogeTerms = ['+/u/dogetipbot']
+tip_amount_pattern = re.compile("D?(\d+) ?(?:D|doge)?", re.IGNORECASE)
 
 
 def find_giveaway():
@@ -35,8 +37,24 @@ def find_giveaway():
                                         obj.close()
                                         time.sleep(30)
                                         break
+#Thanks people who donate to bot
+
+def check_tip():
+    messages = r.get_unread('comments')
+    for message in messages:
+        tip_message = message.body
+        has_tip = any(string in tip_message for string in dogeTerms)
+        if message.id not in already_done  and has_tip:
+            amount_found = tip_amount_pattern.findall(tip_message)
+            if amount_found:
+                print 'Donation received! Thanking for donation.'          
+                message.reply('Thank you for donating! This will keep me running longer!')
+                already_done.add(message.id)
+                break
+        
 #loops the defined function
 while True:
         find_giveaway()
+        check_tip()
         print 'Done. Starting over in 30 seconds.'
         time.sleep(30)
