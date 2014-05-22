@@ -22,15 +22,16 @@ def find_giveaway():
                 #Sees if the title of the post has the word "giveaway" in it
                 has_word = any(string in post_title for string in words)
                 link = submission.permalink
-                if link not in open("alreadyseen.txt").read() and has_word:
+                sub_id = submission.id
+                if sub_id not in open("alreadyseen.txt").read() and has_word:
                         #Checks to see if it has enough upvotes
                         if submission.ups>10:
-                                if submission.id not in already_done:
+                                if sub_id not in already_done:
                                         print 'Found post that qualifies! Commenting...'
                                         #This is the comment the bot leaves on the giveaway, change it to suit your needs.
                                         submission.add_comment('+/u/dogetipbot 50 doge \n\n^^Please ^^consider ^^tipping ^^this ^^bot ^^to ^^keep ^^me ^^running ^^and ^^to ^^see ^^larger ^^tips! \n\n^^Owned ^^by ^^/u/cbg119. ^^Problems? ^^Shoot ^^me ^^a ^^message!')
-                                        already_done.add(submission.id)
-                                        obj.write(link + ' ') 
+                                        already_done.add(sub_id)
+                                        obj.write(sub_id + '  ') 
                                         obj.close()
                                         time.sleep(30)
                                         break
@@ -39,4 +40,3 @@ while True:
         find_giveaway()
         print 'Done. Starting over in 30 seconds.'
         time.sleep(30)
-
