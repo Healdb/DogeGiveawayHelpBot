@@ -1,6 +1,6 @@
 import time
 import praw
-
+import re
 #identifies the bot to reddit
 r = praw.Reddit('Dogecoin giveaway tipper')
 #input username and password the bot will use here.
