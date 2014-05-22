@@ -22,7 +22,7 @@ def find_giveaway():
                 #Sees if the title of the post has the word "giveaway" in it
                 has_word = any(string in post_title for string in words)
                 link = submission.permalink
-                if link in open("faucet_users.txt").read():
+                if link in open("alreadyseen.txt").read():
                         #Checks to see if it has enough upvotes
                         if submission.ups>10:
                                 if submission.id not in already_done and has_word:
