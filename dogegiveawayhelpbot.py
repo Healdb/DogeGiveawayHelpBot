@@ -27,7 +27,7 @@ def find_giveaway():
                 sub_id = submission.id
                 if sub_id not in open("alreadyseen.txt").read() and has_word:
                         #Checks to see if it has enough upvotes
-                        if submission.ups>10:
+                        if submission.ups>=3:
                                 if sub_id not in already_done:
                                         print 'Found post that qualifies! Commenting...'
                                         #This is the comment the bot leaves on the giveaway, change it to suit your needs.
