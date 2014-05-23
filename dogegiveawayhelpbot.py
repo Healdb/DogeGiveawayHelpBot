@@ -31,7 +31,9 @@ def find_giveaway():
                                 if sub_id not in already_done:
                                         print 'Found post that qualifies! Commenting...'
                                         #This is the comment the bot leaves on the giveaway, change it to suit your needs.
-                                        submission.add_comment('+/u/dogetipbot 50 doge \n\n^^Please ^^consider ^^tipping ^^this ^^bot ^^to ^^keep ^^me ^^running ^^and ^^to ^^see ^^larger ^^tips! \n\n^^Owned ^^by ^^/u/cbg119. ^^Problems? ^^Shoot ^^me ^^a ^^message!')
+                                        submission.add_comment('+/u/dogetipbot 50 doge \n\n'
+                                        '^^Please ^^consider ^^tipping ^^this ^^bot ^^to ^^keep ^^me ^^running ^^and ^^to ^^see ^^larger ^^tips!\n\n'
+                                        '^^Owned ^^by ^^/u/cbg119. ^^Problems? ^^Shoot ^^me ^^a ^^message!')
                                         already_done.add(sub_id)
                                         obj.write(sub_id + '  ') 
                                         obj.close()
