@@ -39,22 +39,29 @@ def find_giveaway():
                                         obj.close()
                                         time.sleep(30)
                                         break
-#Thanks the people who donate to bot
+#Thanks the people who donate to the bot
+#This still needs to be worked on, as it does not catch every tip, but almost every tip.
 
 def check_tip():
     messages = r.get_unread('comments')
     for message in messages:
+        obj = open('tipreplies.txt', 'ab+')
         tip_message = message.body
         has_tip = any(string in tip_message for string in dogeTerms)
-        if message.id not in already_done  and has_tip:
-            amount_found = tip_amount_pattern.findall(tip_message)
-            if amount_found:
-                print 'Donation received! Thanking for donation.'          
-                message.reply('Thank you for donating! This will keep me running longer!')
-                already_done.add(message.id)
-                break
+        if message.id not in open("tipreplies.txt").read() and has_tip:
+            if message.id not in already_done:
+                amount_found = tip_amount_pattern.findall(tip_message)
+                if amount_found:
+                    print 'Donation received! Thanking for donation.'
+                    message.reply('Thank you for donating! This will keep me running longer!')
+                    already_done.add(message.id)
+                    obj.write(message.id + '  ')
+                    obj.close()
+                    time.sleep(30)
+                    break
+
         
-#loops the defined function
+#loops the defined functions
 while True:
         find_giveaway()
         check_tip()
