@@ -39,7 +39,7 @@ def find_giveaway():
                                         obj.close()
                                         time.sleep(30)
                                         break
-#Thanks people who donate to bot
+#Thanks the people who donate to bot
 
 def check_tip():
     messages = r.get_unread('comments')
