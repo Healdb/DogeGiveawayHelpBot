@@ -6,7 +6,8 @@ r = praw.Reddit('Dogecoin giveaway tipper')
 #input username and password the bot will use here.
 r.login("USERNAME","PASSWORD")
 already_done = set()
-words = ['Giveaway', 'giveaway']
+words = ['[Giveaway]', '[giveaway]', 'giveaway!', 'GIVEAWAY!', '[giveaway.]', '[GIVEAWAY]', '[GIVEAWAY!]', '[Giveaway!]', '[giveaway!]', 'Giveaway!']
+
 dogeTerms = ['+/u/dogetipbot']
 tip_amount_pattern = re.compile("D?(\d+) ?(?:D|doge)?", re.IGNORECASE)
 
@@ -27,7 +28,7 @@ def find_giveaway():
                 sub_id = submission.id
                 if sub_id not in open("alreadyseen.txt").read() and has_word:
                         #Checks to see if it has enough upvotes
-                        if submission.ups>=3:
+                        if submission.score>=3:
                                 if sub_id not in already_done:
                                         print 'Found post that qualifies! Commenting...'
                                         #This is the comment the bot leaves on the giveaway, change it to suit your needs.
