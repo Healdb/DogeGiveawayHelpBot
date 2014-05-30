@@ -11,8 +11,11 @@ words = ['[Giveaway]', '[giveaway]', 'giveaway!', 'GIVEAWAY!', '[giveaway.]', '[
 dogeTerms = ['+/u/dogetipbot']
 tip_amount_pattern = re.compile("D?(\d+) ?(?:D|doge)?", re.IGNORECASE)
 
+#Makes it easrier to customize the amount the bot tips
+tip_amount = 50
 
 def find_giveaway():
+        global tip_amount
         print 'Starting...'
         subreddit = r.get_subreddit('dogecoin')
         #Gets the last 25 submissions from /r/dogecoin
@@ -32,7 +35,7 @@ def find_giveaway():
                                 if sub_id not in already_done:
                                         print 'Found post that qualifies! Commenting...'
                                         #This is the comment the bot leaves on the giveaway, change it to suit your needs.
-                                        submission.add_comment('+/u/dogetipbot 50 doge \n\n'
+                                        submission.add_comment('+/u/dogetipbot ' + str(tip_amount) + ' doge \n\n'
                                         '^^Please ^^consider ^^tipping ^^this ^^bot ^^to ^^keep ^^me ^^running ^^and ^^to ^^see ^^larger ^^tips!\n\n'
                                         '^^Owned ^^by ^^/u/cbg119. ^^Problems? ^^Shoot ^^me ^^a ^^message!')
                                         already_done.add(sub_id)
@@ -44,23 +47,34 @@ def find_giveaway():
 #This still needs to be worked on, as it does not catch every tip, but almost every tip.
 
 def check_tip():
-    messages = r.get_unread('comments')
-    for message in messages:
-        obj = open('tipreplies.txt', 'ab+')
-        tip_message = message.body
-        has_tip = any(string in tip_message for string in dogeTerms)
-        if message.id not in open("tipreplies.txt").read() and has_tip:
-            if message.id not in already_done:
-                amount_found = tip_amount_pattern.findall(tip_message)
-                if amount_found:
-                    print 'Donation received! Thanking for donation.'
-                    message.reply('Thank you for donating! This will keep me running longer!')
-                    already_done.add(message.id)
-                    obj.write(message.id + '  ')
-                    obj.close()
-                    time.sleep(30)
-                    break
-
+        global tip_amount
+        messages = r.get_unread('comments')
+        for message in messages:
+                obj = open('tipreplies.txt', 'ab+')
+                tip_message = message.body
+                has_tip = any(string in tip_message for string in dogeTerms)
+                if message.id not in open("tipreplies.txt").read() and has_tip:
+                        if message.id not in already_done:
+                                amount_found = tip_amount_pattern.findall(tip_message)
+                                if amount_found:
+                                        #Pulls the int out of the pattern
+                                        amount_found =  float(amount_found[0])
+                                        #Finds how many posts the donation will fund the bot for
+                                        donated_amount = amount_found/tip_amount
+                                        print 'Donation received! Thanking for donation.'
+                                        message.reply('Thank you for donating! This will fund me for ' + str(donated_amount) + ' posts!')
+                                        already_done.add(message.id)
+                                        obj.write(message.id + '  ')
+                                        obj.close()
+                                        time.sleep(30)
+                                        break
+                                else:
+                                        message.reply('Thank you for donating! This will help to keep me funded!')
+                                        already_done.add(message.id)
+                                        obj.write(message.id + '  ')
+                                        obj.close()
+                                        time.sleep(30)
+                                        break
         
 #loops the defined functions
 while True:
